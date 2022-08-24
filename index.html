@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Fontend Assesment</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
+	<link rel="stylesheet" href="style.css">
+	<script src="./dist/index.js"></script>
+
+</head>
+<body>
+	<div class="banner">
+		<div class="container">
+			<div class="row">
+				<div class="banner__heading">
+					<h1 class="banner__heading--title text-center">Hello Developer!</h1>
+					<p class="banner__heading--sub text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+				</div>
+			</div> <!-- end of row -->
+		</div> <!-- end of container -->
+	</div>
+
+	<div class="grid">
+		<div class="container">
+			<div class="row">
+				<div class="col-4">
+					<div class="grid__desc">
+						<img src="https://via.placeholder.com/400x300" />
+
+						<p class="grid__desc--text text-center">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+						</p>
+
+						<div class="grid__desc--btn text-center">
+							<a href="#" class="btn text-uppercase">Read More</a>
+						</div>
+					</div>
+				</div> <!-- end of grid -->
+
+				<div class="col-4">
+					<div class="grid__desc">
+						<img src="https://via.placeholder.com/400x300" />
+
+						<p class="grid__desc--text text-center">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+						</p>
+
+						<div class="grid__desc--btn text-center">
+							<a href="#" class="btn text-uppercase">Read More</a>
+						</div>
+					</div>
+				</div> <!-- end of grid -->
+
+				<div class="col-4">
+					<div class="grid__desc">
+						<img src="https://via.placeholder.com/400x300" />
+
+						<p class="grid__desc--text text-center">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+						</p>
+
+						<div class="grid__desc--btn text-center">
+							<a href="#" class="btn text-uppercase">Read More</a>
+						</div>
+					</div>
+				</div> <!-- end of grid -->
+			</div><!-- end of row -->
+		</div> <!-- end of contiainer -->
+	</div>
+
+	<div id="app">
+		<div class="container">
+			<div class="row">
+				<ul class="award-tab nav nav-pills" id="tab" role="tablist">
+					<li v-for="(accordion, index) in accordions" :key="index">
+						<v-bind>
+						<button :class="{ active: index === 0 }" :text="accordion.text" class="nav-link" :id="'#content' + index + '-tab'" data-bs-toggle="tab" :data-bs-target="'#content' + index" type="button" role="tab"  :aria-controls="'#content' + index" aria-selected="true">{{accordion.title}}</button>
+</v-bind>
+					</li>
+					
+				</ul>
+			</div> <!-- end of row -->
+
+			<div class="row">
+				<div class="col-12">
+					<!-- Tabs content -->
+					<div class="tab-content" id="wrapper">
+						<v-bind>
+						<div v-for="(accordion, index) in accordions" :key="index" :class="{ active: index === 0 }" :text="accordion.text" class="tab-pane contents" :id="'#content' + index" role="tabpanel" :aria-labelledby="'#content' + index + '-tab'">
+							<div v-html="accordion.content"></div>
+						</div> <!-- end of tab-pane -->
+						</v-bind>
+					</div> <!-- end of tab-content -->
+				</div>
+			</div>
+		</div> <!-- end of container -->
+	</div> <!-- end of #app -->
+
+	<script type="text/javascript">
+		const app = new Vue({
+		    el: "#app",
+		    data: {
+		        accordions: []
+		    },
+		    methods: {
+		        loadJSON(callback) {
+
+		            var xobj = new XMLHttpRequest();
+		            xobj.overrideMimeType("application/json");
+		            xobj.open('GET', './data.json', true)
+		            xobj.onreadystatechange = function () {
+		                if (xobj.readyState == 4 && xobj.status == "200") {
+		                    callback(xobj.responseText);
+		                }
+		            };
+		            xobj.send(null);
+		        },
+		        init() {
+		            let that = this
+		            that.loadJSON(function (response) {
+		                var data = JSON.parse(response);
+		                that.accordions = data.accordions
+		            });
+		        }
+		    },
+		    mounted(){
+		        this.init()
+		    },
+		})
+	</script>
+
+	<script src="./js/plugins/bootstrap.bundle.min.js"></script>
+</body>
+</html>
